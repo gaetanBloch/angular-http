@@ -21,10 +21,17 @@ export class PostService {
       .get<{ [key: string]: Post }>('https://angular-http-4f890.firebaseio.com/posts.json')
       .pipe(map(response => {
         const posts: Post[] = [];
-        for (const key of Object.keys(response)) {
-          posts.push({...response[key], id: key});
+        if (response) {
+          for (const key of Object.keys(response)) {
+            posts.push({...response[key], id: key});
+          }
         }
         return posts;
       }));
+  }
+
+  deletePosts(): Observable<unknown> {
+    return this.http
+      .delete('https://angular-http-4f890.firebaseio.com/posts.json');
   }
 }
