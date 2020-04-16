@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   }
 
   onCreatePost(postData: Post) {
-    this.postService.createPost(postData);
+    this.postService.createPost(postData).subscribe(() => this.fetchPosts());
   }
 
   onFetchPosts() {
@@ -32,11 +32,10 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    // this.isFetching = true;
-    this.postService.fetchPosts();
-    // .subscribe(posts => {
-    //   this.loadedPosts = posts;
-    //   this.isFetching = false;
-    // });
+    this.isFetching = true;
+    this.postService.fetchPosts().subscribe(posts => {
+      this.loadedPosts = posts;
+      this.isFetching = false;
+    });
   }
 }

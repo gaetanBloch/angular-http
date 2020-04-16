@@ -2,19 +2,21 @@ import { Injectable } from '@angular/core';
 import { Post } from './post.model';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class PostService {
   constructor(private http: HttpClient) {
   }
 
-  createPost(post: Post) {
-    this.http
-      .post<{ name: string }>('https://angular-http-4f890.firebaseio.com/posts.json', post)
-      .subscribe(response => console.log(response));
+  createPost(post: Post): Observable<{ name: string }> {
+    return this.http.post<{ name: string; }>(
+      'https://angular-http-4f890.firebaseio.com/posts.json',
+      post
+    );
   }
 
-  fetchPosts() {
+  fetchPosts(): Observable<Post[]> {
     return this.http
       .get<{ [key: string]: Post }>('https://angular-http-4f890.firebaseio.com/posts.json')
       .pipe(map(response => {
@@ -23,7 +25,6 @@ export class PostService {
           posts.push({...response[key], id: key});
         }
         return posts;
-      }))
-      .subscribe(posts => console.log(posts));
+      }));
   }
 }
