@@ -11,20 +11,27 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchPosts();
+  }
 
   onCreatePost(postData: { title: string; content: string }) {
-    // Send Http request
     this.http
       .post('https://angular-http-4f890.firebaseio.com/posts.json', postData)
-      .subscribe((response) => console.log(response));
+      .subscribe(response => console.log(response));
   }
 
   onFetchPosts() {
-    // Send Http request
+    this.fetchPosts();
   }
 
   onClearPosts() {
     // Send Http request
+  }
+
+  private fetchPosts() {
+    this.http
+      .get('https://angular-http-4f890.firebaseio.com/posts.json')
+      .subscribe(response => console.log(response));
   }
 }
