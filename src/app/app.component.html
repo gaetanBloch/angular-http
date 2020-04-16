@@ -30,7 +30,8 @@
         <p>Error: {{ errorWrite.error.error }}</p>
         <p>Error code: {{ errorWrite.status }}</p>
         <p>Error status: {{ errorWrite.statusText }}</p>
-        <p>URL: {{ errorWrite.url }}</p>
+        <p>URI: {{ errorWrite.url }}</p>
+        <button class="btn btn-danger" (click)="onDismissWriteError()">Dismiss</button>
       </div>
       <hr/>
     </div>
@@ -69,7 +70,8 @@
         <p>Error: {{ errorRead.error.error }}</p>
         <p>Error code: {{ errorRead.status }}</p>
         <p>Error status: {{ errorRead.statusText }}</p>
-        <p>URL: {{ errorRead.url }}</p>
+        <p>URI: {{ errorRead.url }}</p>
+        <button class="btn btn-danger" (click)="onDismissReadError()">Dismiss</button>
       </div>
     </div>
   </div>

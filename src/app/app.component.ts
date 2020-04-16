@@ -39,6 +39,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.postService.deletePosts().subscribe(() => this.loadedPosts = []);
   }
 
+  onDismissWriteError(): void {
+    this.errorWrite = null;
+  }
+
+  onDismissReadError(): void {
+    this.errorRead = null;
+  }
+
   ngOnDestroy(): void {
     this.errorSubscription.unsubscribe();
   }

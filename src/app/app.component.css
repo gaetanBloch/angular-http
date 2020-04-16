@@ -10,6 +10,10 @@ button {
   margin-top: 20px;
 }
 
+.btn-danger {
+  margin-top: 10px;
+}
+
 .loader {
   width: 100px;
   height: 100px;
