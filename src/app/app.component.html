@@ -25,15 +25,14 @@
           Send Post
         </button>
       </form>
+      <hr/>
     </div>
   </div>
-  <hr/>
   <div class="row">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
       <button class="btn btn-primary" (click)="onFetchPosts()">
         Fetch Posts
       </button>
-      |
       <button class="btn btn-danger"
               [disabled]="loadedPosts.length < 1"
               (click)="onClearPosts()">
@@ -43,7 +42,16 @@
   </div>
   <div class="row">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
-      <p>No posts available!</p>
+      <h4 class="text-center" *ngIf="loadedPosts.length === 0">No posts available!</h4>
+      <div class="panel panel-default" *ngIf="loadedPosts.length > 0">
+        <div class="panel-heading"><strong>Posts</strong></div>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let post of loadedPosts">
+            <h4><strong>{{ post.title }}</strong></h4>
+            <p><em>{{ post.content }}</em></p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
