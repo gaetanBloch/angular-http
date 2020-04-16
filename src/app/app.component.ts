@@ -15,7 +15,9 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    console.log(postData);
+    this.http
+      .post('https://angular-http-4f890.firebaseio.com/posts.json', postData)
+      .subscribe((response) => console.log(response));
   }
 
   onFetchPosts() {
