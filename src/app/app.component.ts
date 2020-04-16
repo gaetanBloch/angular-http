@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Post } from './post.model';
 import { PostService } from './post.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,6 @@ import { Subject, Subscription } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
   loadedPosts: Post[] = [];
   isFetching = false;
-  errorSubject = new Subject<HttpErrorResponse>();
   errorRead: HttpErrorResponse = null;
   errorWrite: HttpErrorResponse = null;
   errorSubscription: Subscription;
@@ -22,14 +21,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.errorSubscription = this.errorSubject.subscribe(error => this.errorWrite = error);
+    this.errorSubscription = this.postService.errorSubject.subscribe(
+      error => this.errorWrite = error
+    );
     this.fetchPosts();
   }
 
   onCreatePost(postData: Post): void {
-    this.postService.createPost(postData).subscribe(
-      () => this.fetchPosts(),
-      (error: HttpErrorResponse) => this.errorSubject.next(error));
+    this.postService.createPost(postData).subscribe(() => this.fetchPosts());
   }
 
   onFetchPosts(): void {
