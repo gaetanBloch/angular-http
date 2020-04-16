@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: Post) {
     this.http
-      .post('https://angular-http-4f890.firebaseio.com/posts.json', postData)
+      .post<{ name: string }>('https://angular-http-4f890.firebaseio.com/posts.json', postData)
       .subscribe(response => console.log(response));
   }
 
@@ -35,14 +35,14 @@ export class AppComponent implements OnInit {
 
   private fetchPosts() {
     this.http
-      .get('https://angular-http-4f890.firebaseio.com/posts.json')
-      .pipe(map((response: { [key: string]: Post }) => {
+      .get<{ [key: string]: Post }>('https://angular-http-4f890.firebaseio.com/posts.json')
+      .pipe(map(response => {
         const posts: Post[] = [];
         for (const key of Object.keys(response)) {
           posts.push({...response[key], id: key});
         }
         return posts;
       }))
-      .subscribe((posts: Post[]) => console.log(posts));
+      .subscribe(posts => console.log(posts));
   }
 }
