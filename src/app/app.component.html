@@ -42,8 +42,10 @@
   </div>
   <div class="row">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
-      <h4 class="text-center" *ngIf="loadedPosts.length === 0">No posts available!</h4>
-      <div class="panel panel-default" *ngIf="loadedPosts.length > 0">
+      <h4 class="text-center" *ngIf="loadedPosts.length === 0 && !isFetching">
+        No posts available!
+      </h4>
+      <div class="panel panel-default" *ngIf="loadedPosts.length > 0 && !isFetching">
         <div class="panel-heading"><strong>Posts</strong></div>
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let post of loadedPosts">
@@ -51,6 +53,8 @@
             <p><em>{{ post.content }}</em></p>
           </li>
         </ul>
+      </div>
+      <div class="loader" *ngIf="isFetching">
       </div>
     </div>
   </div>
