@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
 import { catchError, map } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
@@ -24,10 +24,17 @@ export class PostService {
   }
 
   fetchPosts(): Observable<Post[]> {
+    // Several query parameters to add
+    let searchParams = new HttpParams();
+    searchParams = searchParams.append('print', 'pretty');
+    searchParams = searchParams.append('key', 'value');
+
     return this.http
       .get<{ [key: string]: Post }>('https://angular-http-4f890.firebaseio.com/posts.json',
         {
-          headers: new HttpHeaders({'custom-header': 'hello'})
+          headers: new HttpHeaders({'custom-header': 'hello'}),
+          // params: new HttpParams().set('print', 'pretty')
+          params: searchParams
         })
       .pipe(
         map(response => {
