@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
+import { Post } from './post.model';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
 
   constructor(private http: HttpClient) {
   }
@@ -17,7 +19,7 @@ export class AppComponent implements OnInit {
     this.fetchPosts();
   }
 
-  onCreatePost(postData: { title: string; content: string }) {
+  onCreatePost(postData: Post) {
     this.http
       .post('https://angular-http-4f890.firebaseio.com/posts.json', postData)
       .subscribe(response => console.log(response));
@@ -34,13 +36,13 @@ export class AppComponent implements OnInit {
   private fetchPosts() {
     this.http
       .get('https://angular-http-4f890.firebaseio.com/posts.json')
-      .pipe(map(response => {
-        const posts = [];
+      .pipe(map((response: { [key: string]: Post }) => {
+        const posts: Post[] = [];
         for (const key of Object.keys(response)) {
           posts.push({...response[key], id: key});
         }
         return posts;
       }))
-      .subscribe(response => console.log(response));
+      .subscribe((posts: Post[]) => console.log(posts));
   }
 }
