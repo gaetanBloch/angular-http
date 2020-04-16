@@ -42,10 +42,10 @@
   </div>
   <div class="row">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
-      <h4 class="text-center" *ngIf="loadedPosts.length === 0 && !isFetching">
+      <h4 class="text-center" *ngIf="loadedPosts.length === 0 && !isFetching && !errorRead">
         No posts available!
       </h4>
-      <div class="panel panel-default" *ngIf="loadedPosts.length > 0 && !isFetching">
+      <div class="panel panel-default" *ngIf="loadedPosts.length > 0 && !isFetching && !errorRead">
         <div class="panel-heading"><strong>Posts</strong></div>
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let post of loadedPosts">
@@ -56,6 +56,13 @@
       </div>
       <div class="loader" *ngIf="isFetching">
         <span></span>
+      </div>
+      <div class="alert alert-danger" *ngIf="errorRead">
+        <h5><strong>An Error Occurred:</strong></h5>
+        <p>Error: {{ errorRead.error.error }}</p>
+        <p>Error code: {{ errorRead.status }}</p>
+        <p>Error status: {{ errorRead.statusText }}</p>
+        <p>URL: {{ errorRead.url }}</p>
       </div>
     </div>
   </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Post } from './post.model';
 import { PostService } from './post.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { PostService } from './post.service';
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching = false;
+  errorRead: HttpErrorResponse = null;
 
   constructor(private postService: PostService) {
   }
@@ -36,6 +38,9 @@ export class AppComponent implements OnInit {
     this.postService.fetchPosts().subscribe(posts => {
       this.loadedPosts = posts;
       this.isFetching = false;
+    }, (error: HttpErrorResponse) => {
+      this.isFetching = false;
+      this.errorRead = error;
     });
   }
 }

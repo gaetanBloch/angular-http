@@ -6,11 +6,7 @@ button {
   margin-right: 10px;
 }
 
-.panel {
-  margin-top: 20px;
-}
-
-h4 {
+.panel, .alert, h4 {
   margin-top: 20px;
 }
 
