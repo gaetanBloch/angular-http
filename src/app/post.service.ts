@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
 import { catchError, map } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
@@ -25,7 +25,10 @@ export class PostService {
 
   fetchPosts(): Observable<Post[]> {
     return this.http
-      .get<{ [key: string]: Post }>('https://angular-http-4f890.firebaseio.com/posts.json')
+      .get<{ [key: string]: Post }>('https://angular-http-4f890.firebaseio.com/posts.json',
+        {
+          headers: new HttpHeaders({'custom-header': 'hello'})
+        })
       .pipe(
         map(response => {
           const posts: Post[] = [];
