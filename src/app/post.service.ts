@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
-import { catchError, map } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { catchError, map, tap } from 'rxjs/operators';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpEventType,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse
+} from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
@@ -11,10 +18,13 @@ export class PostService {
   constructor(private http: HttpClient) {
   }
 
-  createPost(post: Post): Observable<{ name: string }> {
+  createPost(post: Post): Observable<HttpResponse<{ name: string; }>> {
     return this.http.post<{ name: string; }>(
       'https://angular-http-4f890.firebaseio.com/posts.json',
-      post
+      post,
+      {
+        observe: 'response'
+      }
     ).pipe(
       catchError(error => {
         this.errorSubject.next(error);
@@ -54,6 +64,24 @@ export class PostService {
   }
 
   deletePosts(): Observable<unknown> {
-    return this.http.delete('https://angular-http-4f890.firebaseio.com/posts.json');
+    return this.http.delete(
+      'https://angular-http-4f890.firebaseio.com/posts.json',
+      {
+        observe: 'events'
+      }
+    ).pipe(
+      tap(event => {
+        console.log(event);
+        // @ts-ignore
+        if (event.type === HttpEventType.Sent) {
+          // ...
+        }
+        // @ts-ignore
+        if (event.type === HttpEventType.Response) {
+          // @ts-ignore
+          console.log(event.body);
+        }
+      })
+    );
   }
 }
