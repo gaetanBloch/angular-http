@@ -23,7 +23,7 @@ export class PostService {
       'https://angular-http-4f890.firebaseio.com/posts.json',
       post,
       {
-        observe: 'response'
+        observe: 'response',
       }
     ).pipe(
       catchError(error => {
@@ -44,7 +44,9 @@ export class PostService {
         {
           headers: new HttpHeaders({'custom-header': 'hello'}),
           // params: new HttpParams().set('print', 'pretty')
-          params: searchParams
+          params: searchParams,
+          // Default
+          responseType: 'json'
         })
       .pipe(
         map(response => {
@@ -67,7 +69,8 @@ export class PostService {
     return this.http.delete(
       'https://angular-http-4f890.firebaseio.com/posts.json',
       {
-        observe: 'events'
+        observe: 'events',
+        responseType: 'text'
       }
     ).pipe(
       tap(event => {
