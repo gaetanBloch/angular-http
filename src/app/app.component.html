@@ -25,6 +25,13 @@
           Send Post
         </button>
       </form>
+      <div class="alert alert-danger" *ngIf="errorWrite">
+        <h5><strong>An Error Occurred:</strong></h5>
+        <p>Error: {{ errorWrite.error.error }}</p>
+        <p>Error code: {{ errorWrite.status }}</p>
+        <p>Error status: {{ errorWrite.statusText }}</p>
+        <p>URL: {{ errorWrite.url }}</p>
+      </div>
       <hr/>
     </div>
   </div>
